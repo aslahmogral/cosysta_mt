@@ -1,0 +1,2 @@
+/Users/aslahmogral/Documents/project/cosysta_mt/android/app/.cxx/Debug/2g60593q/x86/CMakeFiles/edit_cache.dir
+/Users/aslahmogral/Documents/project/cosysta_mt/android/app/.cxx/Debug/2g60593q/x86/CMakeFiles/rebuild_cache.dir
