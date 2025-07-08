@@ -18,33 +18,54 @@ class HomeScreen extends StatelessWidget {
             // ),
             body: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: ListView.builder(
-                itemCount: model.products.length + 1,
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return SearchBar();
-                  }
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProductDetailsScreen(
-                            product: model.products[index - 1],
-                          ),
-                        ),
-                      );
-                    },
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(model.products[index - 1].image),
+              child: Column(
+                children: [
+                  if (!model.hasInternet)
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(10),
+                      color: Colors.red,
+                      child: Text(
+                        "⚠ No Internet — showing cached data",
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
                       ),
-                      title: Text(model.products[index - 1].title),
-                      subtitle: Text(model.products[index - 1].description),
                     ),
-                  );
-                },
+                  Expanded(
+                    child: model.products.isEmpty
+                        ? Center(child: Text("No products available"))
+                        : ListView.builder(
+                            itemCount: model.products.length + 1,
+                            itemBuilder: (context, index) {
+                              if (index == 0) {
+                                return SearchBar();
+                              }
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ProductDetailsScreen(
+                                        product: model.products[index - 1],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        model.products[index - 1].image),
+                                  ),
+                                  title: Text(model.products[index - 1].title),
+                                  subtitle: Text(
+                                      model.products[index - 1].description),
+                                ),
+                              );
+                            },
+                          ),
+                  ),
+                ],
               ),
             ),
           );
