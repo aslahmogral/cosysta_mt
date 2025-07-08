@@ -1,7 +1,8 @@
+import 'package:cosysta_mt/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class SearchBar extends StatefulWidget {
-  const SearchBar({
+class CustomSearchBar extends StatefulWidget {
+  const CustomSearchBar({
     super.key,
     required this.onSearchTap,
     this.controller,
@@ -15,10 +16,10 @@ class SearchBar extends StatefulWidget {
  
 
   @override
-  _SearchBarState createState() => _SearchBarState();
+  _CustomSearchBarState createState() => _CustomSearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _CustomSearchBarState extends State<CustomSearchBar> {
   late final TextEditingController _controller;
 
   @override
@@ -35,11 +36,22 @@ class _SearchBarState extends State<SearchBar> {
 
   @override
   Widget build(BuildContext context) {
+    final inputDecoration = InputDecoration(
+      hintText: 'Search',
+      hintStyle: AppTheme.textStyles.textFieldHintText,
+      alignLabelWithHint: true,
+      filled: true,
+      suffixIcon: Icon(Icons.search),
+      fillColor: const Color(0xFFF1F2F6),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide.none,
+      ),
+    );
     return TextFormField(
       controller: widget.controller,
-      decoration: InputDecoration(
-        // Add your desired decoration properties here
-      ),
+      decoration: inputDecoration,
       style: const TextStyle(color: Colors.black, fontSize: 16),
     );
   }
