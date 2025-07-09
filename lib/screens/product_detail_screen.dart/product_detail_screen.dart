@@ -41,9 +41,9 @@ class ProductDetailScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: DraggableScrollableSheet(
-                    initialChildSize: 0.3,
-                    minChildSize: 0.1,
-                    maxChildSize: 1,
+                    initialChildSize: 0.4,
+                    minChildSize: 0.4,
+                    maxChildSize: 0.7,
                     builder: (context, scrollController) {
                       return LayoutBuilder(
                         builder: (context, constraints) {
