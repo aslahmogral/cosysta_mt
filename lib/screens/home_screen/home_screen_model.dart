@@ -5,9 +5,7 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:cosysta_mt/models/products.dart';
 import 'package:cosysta_mt/services/products_services.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreenModel with ChangeNotifier {
