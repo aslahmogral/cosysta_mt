@@ -17,6 +17,7 @@ class HomeScreenModel with ChangeNotifier {
   Timer? _debounce;
   String searchQuery = '';
   List<Product> filteredProducts = [];
+  bool isLoading = false;
 
   late StreamSubscription<ConnectivityResult> _subscription;
   bool hasInternet = true;
@@ -26,6 +27,8 @@ class HomeScreenModel with ChangeNotifier {
   }
 
   Future<void> initialize() async {
+    isLoading = true;
+    notifyListeners();
     await loadProducts();
     hasInternet = await checkInternet();
     notifyListeners();
@@ -46,6 +49,8 @@ class HomeScreenModel with ChangeNotifier {
       hasInternet = internetNow;
       notifyListeners();
     });
+    isLoading = false;
+    notifyListeners();
   }
 
   Future<void> loadProducts() async {
@@ -87,7 +92,7 @@ class HomeScreenModel with ChangeNotifier {
 
   Future<bool> checkInternet() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
-    
+
     if (connectivityResult[0] == ConnectivityResult.none) {
       return false;
     }

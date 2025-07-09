@@ -19,7 +19,15 @@ class HomeScreen extends StatelessWidget {
             // appBar: AppBar(
             //   title: SearchBar()
             // ),
-            body: Padding(
+            body:model.isLoading ? Center(child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 12,
+              children: [
+                CircularProgressIndicator(),
+                
+                Text('loading...')
+              ],
+            )) : Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
