@@ -90,7 +90,7 @@ class ProductDetailScreen extends StatelessWidget {
                                                               AppTheme.colors
                                                                   .primaryColor),
                                                   onPressed: () {},
-                                                  child: Text('Rs 500',
+                                                  child: Text('Rs ${product.price}',
                                                       style: TextStyle(
                                                           color:
                                                               Colors.white)))),

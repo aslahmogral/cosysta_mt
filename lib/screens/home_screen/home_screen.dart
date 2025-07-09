@@ -52,7 +52,6 @@ class HomeScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 CustomSearchBar(
-                                  controller: model.controller,
                                   onSearchTap: (value) =>
                                       {model.updateSearchQuery(value)},
                                 ),
