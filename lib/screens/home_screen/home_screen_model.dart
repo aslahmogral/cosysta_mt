@@ -6,10 +6,15 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:cosysta_mt/models/products.dart';
 import 'package:cosysta_mt/services/products_services.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreenModel with ChangeNotifier {
+  TextEditingController controller = TextEditingController();
   List<Product> products = [];
+  Timer? _debounce;
+  String searchQuery = '';
+  List<Product> filteredProducts = [];
 
   late StreamSubscription<ConnectivityResult> _subscription;
   bool hasInternet = true;
@@ -47,6 +52,7 @@ class HomeScreenModel with ChangeNotifier {
     if (storedProducts != null) {
       List<dynamic> decoded = jsonDecode(storedProducts);
       products = decoded.map((json) => Product.fromJson(json)).toList();
+      filteredProducts = products;
       notifyListeners();
     }
   }
@@ -54,6 +60,7 @@ class HomeScreenModel with ChangeNotifier {
   Future<void> getProducts() async {
     try {
       products = await ProductsServices.getProducts();
+      filteredProducts = products;
       final prefs = await SharedPreferences.getInstance();
       final productJsonList = products.map((p) => p.toJson()).toList();
       final encoded = jsonEncode(productJsonList);
@@ -70,7 +77,7 @@ class HomeScreenModel with ChangeNotifier {
     // if ([ConnectivityResult.none].contains(connectivityResult)) {
     //   return false;
     // }
-    if(connectivityResult[0] == ConnectivityResult.none){
+    if (connectivityResult[0] == ConnectivityResult.none) {
       return false;
     }
 
@@ -82,9 +89,28 @@ class HomeScreenModel with ChangeNotifier {
     }
   }
 
+  void updateSearchQuery(String query) {
+    searchQuery = query;
+
+    _debounce?.cancel(); // cancel previous timer
+
+    _debounce = Timer(Duration(milliseconds: 500), () {
+      if (query.isEmpty) {
+        filteredProducts = products;
+      } else {
+        filteredProducts = products
+            .where((product) =>
+                product.title.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      }
+      notifyListeners();
+    });
+  }
+
   @override
   void dispose() {
     _subscription.cancel();
+    _debounce?.cancel();
     super.dispose();
   }
 }

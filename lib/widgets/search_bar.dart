@@ -12,7 +12,7 @@ class CustomSearchBar extends StatefulWidget {
   });
 
   final TextEditingController? controller;
-  final VoidCallback onSearchTap;
+  final ValueChanged<String> onSearchTap;
  
 
   @override
@@ -50,6 +50,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       ),
     );
     return TextFormField(
+      onChanged: widget.onSearchTap,
       controller: widget.controller,
       decoration: inputDecoration,
       style: const TextStyle(color: Colors.black, fontSize: 16),
