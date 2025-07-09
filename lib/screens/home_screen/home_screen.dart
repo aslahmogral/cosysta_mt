@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => HomeScreenModel(),
+      create: (context) => HomeScreenModel(context),
       child: Consumer<HomeScreenModel>(
         builder: (context, model, child) {
           final products = model.filteredProducts;

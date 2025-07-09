@@ -6,10 +6,12 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:cosysta_mt/models/products.dart';
 import 'package:cosysta_mt/services/products_services.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreenModel with ChangeNotifier {
+  BuildContext context;
   TextEditingController controller = TextEditingController();
   List<Product> products = [];
   Timer? _debounce;
@@ -19,7 +21,7 @@ class HomeScreenModel with ChangeNotifier {
   late StreamSubscription<ConnectivityResult> _subscription;
   bool hasInternet = true;
 
-  HomeScreenModel() {
+  HomeScreenModel(this.context) {
     initialize();
   }
 
@@ -59,7 +61,18 @@ class HomeScreenModel with ChangeNotifier {
 
   Future<void> getProducts() async {
     try {
-      products = await ProductsServices.getProducts();
+      products = await ProductsServices.getProducts((error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error loading products: $error"),
+            action: SnackBarAction(
+              label: 'reload products',
+              onPressed: () => getProducts(),
+            ),
+            duration: const Duration(days: 1),
+          ),
+        );
+      });
       filteredProducts = products;
       final prefs = await SharedPreferences.getInstance();
       final productJsonList = products.map((p) => p.toJson()).toList();
@@ -74,9 +87,7 @@ class HomeScreenModel with ChangeNotifier {
 
   Future<bool> checkInternet() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
-    // if ([ConnectivityResult.none].contains(connectivityResult)) {
-    //   return false;
-    // }
+    
     if (connectivityResult[0] == ConnectivityResult.none) {
       return false;
     }
