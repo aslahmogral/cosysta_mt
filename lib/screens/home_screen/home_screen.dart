@@ -1,5 +1,6 @@
 import 'package:cosysta_mt/screens/home_screen/home_screen_model.dart';
 import 'package:cosysta_mt/screens/home_screen/widgets/product_card.dart';
+import 'package:cosysta_mt/screens/product_detail_screen.dart/product_detail_screen.dart';
 import 'package:cosysta_mt/screens/product_detail_screen.dart/product_detail_screen_model.dart';
 import 'package:cosysta_mt/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          ProductDetailsScreen(
+                                          ProductDetailScreen(
                                         product: model.products[index - 1],
                                       ),
                                     ),
